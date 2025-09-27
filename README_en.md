@@ -1,5 +1,35 @@
 # Running Open Source Large Language Models on Local Servers (DeepSeek + A100 80GB, Pure Offline Scenario)
 
+## Table of Contents
+
+- [Running Open Source Large Language Models on Local Servers (DeepSeek + A100 80GB, Pure Offline Scenario)](#running-open-source-large-language-models-on-local-servers-deepseek--a100-80gb-pure-offline-scenario)
+  - [Table of Contents](#table-of-contents)
+  - [I. Environment Setup + Model Weight Caching](#i-environment-setup--model-weight-caching)
+    - [1) Generate and Download Dependencies](#1-generate-and-download-dependencies)
+    - [2) Download Model Snapshots (DeepSeek Series Example)](#2-download-model-snapshots-deepseek-series-example)
+  - [II. Offline Model Loading](#ii-offline-model-loading)
+    - [1) Offline Dependency Installation](#1-offline-dependency-installation)
+    - [2) Load Models from Local Directory (No Network Required)](#2-load-models-from-local-directory-no-network-required)
+  - [III. Inference: Full Precision and Reduced Precision](#iii-inference-full-precision-and-reduced-precision)
+    - [Principle Overview](#principle-overview)
+    - [Case A: Full Precision Inference (14B, FP16)](#case-a-full-precision-inference-14b-fp16)
+    - [Case B: Reduced Precision Inference (70B, 4bit Quantization)](#case-b-reduced-precision-inference-70b-4bit-quantization)
+  - [IV. Fine-tuning Case 1 (Unsupervised): QLoRA Adaptation with Only Large-Scale Corpora](#iv-fine-tuning-case-1-unsupervised-qlora-adaptation-with-only-large-scale-corpora)
+    - [Scenario and Principle](#scenario-and-principle)
+    - [Code (DeepSeek 14B, Self-supervised QLoRA, field text)](#code-deepseek-14b-self-supervised-qlora-field-text)
+    - [Usage Effects and Recommendations](#usage-effects-and-recommendations)
+  - [V. Fine-tuning Case 2 (Supervised): Opinion Analysis (Output -2 to 2)](#v-fine-tuning-case-2-supervised-opinion-analysis-output--2-to-2)
+    - [Scenario and Principle](#scenario-and-principle-1)
+    - [Data Format (JSONL)](#data-format-jsonl)
+    - [Training Code (DeepSeek 14B, QLoRA)](#training-code-deepseek-14b-qlora)
+    - [Inference (Output Numbers Only)](#inference-output-numbers-only)
+  - [VI. Resources and Practical Points (A100 80GB)](#vi-resources-and-practical-points-a100-80gb)
+  - [VII. Common Issues and Troubleshooting](#vii-common-issues-and-troubleshooting)
+  - [VIII. Appendix: Complete Script Example](#viii-appendix-complete-script-example)
+  - [IX. Detailed Tutorial Links](#ix-detailed-tutorial-links)
+
+---
+
 Hardware Prerequisites: NVIDIA A100 80GB (this guide uses this card as an example)  
 Network Prerequisites: GPU environment is completely offline, but can download dependencies and models in a "networked environment" on the same machine first, then switch to "GPU offline environment" for use
 
